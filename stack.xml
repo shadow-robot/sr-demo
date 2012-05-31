@@ -1,7 +1,7 @@
 <stack>
-  <description brief="sr_demo">This stack contains the high level behaviours built by the Shadow Robot Software team. It contains, for example, some demos using our hardware.</description>
+  <description brief="sr_demo">This stack contains the high level behaviours built by the Shadow Robot Software team. It contains, for example, some demos using our hardware. The packages in this stack are (most likely) highly unstable and not maintained.</description>
   <author>Maintained by Ugo Cupcic / software@shadowrobot.com</author>
-  <license>GPL,BSD,LGPL</license>  
+  <license>GPL,BSD,LGPL</license>
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/sr_demo</url>
   <depend stack="common" /> <!-- actionlib -->
