@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="credit_card">
+<link name="my_credit_card">
+    <visual>
+      <geometry>
+        <box size="0.0856 0.05398 0.009"/>
+      </geometry>
+          </visual>
+    <collision>
+      <geometry>
+        <box size="0.0856 0.05398 0.009"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx=".01" ixy="0.0" ixz="0.0" iyy=".01" iyz="0.0" izz=".01"/>
+    </inertial>
+  </link>
+  <gazebo reference="my_credit_card">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+ </robot>

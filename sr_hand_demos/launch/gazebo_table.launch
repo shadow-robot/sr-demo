@@ -1,0 +1,7 @@
+<launch>
+
+  <!-- spawn the table model -->
+  <param name="table_support" textfile="$(find gazebo)/gazebo/share/gazebo-1.0.2/models/table.model" />
+  <node name="my_table_support" pkg="gazebo" type="spawn_model" args="-gazebo -param table_support -x 0.8 -z 0.01 -Y 1.574 -model table" respawn="false" output="screen" />
+
+</launch>

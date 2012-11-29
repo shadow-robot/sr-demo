@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- spawn the credit card model -->
+  <node name="my_credit_card" pkg="gazebo" type="spawn_model" args="-urdf -file $(find sr_hand_demos)/my_models/my_credit_card.urdf -x 0.50 -y -0.13 -z 1.029498  -Y 1.574 -model credit_card" respawn="false" output="screen" />
+
+  
+</launch>
+
+
