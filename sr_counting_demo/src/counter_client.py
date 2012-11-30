@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import roslib; roslib.load_manifest('sr_hand_demos')
+import roslib; roslib.load_manifest('sr_counting_demo')
 import rospy
 
 # Brings in the SimpleActionClient
@@ -8,12 +8,12 @@ import actionlib
 
 # Brings in the messages used by the counter_demoAction, including the
 # goal message and the result message.
-import sr_hand_demos.msg
+import sr_counting_demo.msg
 
 def counter_client():
     # Creates the SimpleActionClient, passing the type of the action
     # (counter_demoAction) to the constructor.
-    client = actionlib.SimpleActionClient('counter_hand_demo', sr_hand_demos.msg.counter_demoAction)
+    client = actionlib.SimpleActionClient('counter_hand_demo', sr_counting_demo.msg.counter_demoAction)
 
     # Waits until the action server has started up and started
     # listening for goals.
@@ -39,7 +39,7 @@ def counter_client():
         
         
     # Creates a goal to send to the action server
-    goal = sr_hand_demos.msg.counter_demoGoal(target = num_selected)
+    goal = sr_counting_demo.msg.counter_demoGoal(target = num_selected)
 
     # Sends the goal to the action server
     client.send_goal(goal)

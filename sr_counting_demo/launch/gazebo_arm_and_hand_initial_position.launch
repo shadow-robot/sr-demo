@@ -27,7 +27,7 @@
     <param name="publish_frequency" type="double" value="20.0" />
   </node>
 
-  <rosparam command="load" file="$(find sr_hand_demos)/param/sr_target.yaml"/>
+  <rosparam command="load" file="$(find sr_counting_demo)/param/sr_target.yaml"/>
 
 </launch>
 

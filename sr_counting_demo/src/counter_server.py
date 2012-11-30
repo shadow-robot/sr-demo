@@ -16,7 +16,7 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import roslib; roslib.load_manifest('sr_hand_demos')
+import roslib; roslib.load_manifest('sr_counting_demo')
 import rospy
 import time, mutex, math
 
@@ -25,15 +25,15 @@ import actionlib
 
 # Brings in the messages used by the counter_demoAction, including the
 # goal message and the result message.
-import sr_hand_demos.msg
+import sr_counting_demo.msg
 
 # This class contains some useful functions for controlling the shadow hand
 import sr_etherCAT_hand_class 
 
 class counter_demoAction(object):
     # create messages that are used to publish feedback/result
-    _feedback = sr_hand_demos.msg.counter_demoFeedback()
-    _result   = sr_hand_demos.msg.counter_demoResult()
+    _feedback = sr_counting_demo.msg.counter_demoFeedback()
+    _result   = sr_counting_demo.msg.counter_demoResult()
 
     def __init__(self, name):
         """
@@ -43,7 +43,7 @@ class counter_demoAction(object):
         """
     
         self._action_name = name
-        self._as = actionlib.SimpleActionServer(self._action_name, sr_hand_demos.msg.counter_demoAction, 
+        self._as = actionlib.SimpleActionServer(self._action_name, sr_counting_demo.msg.counter_demoAction, 
                                                 execute_cb = self.execute_cb, auto_start = False)
         self._as.start()
      
