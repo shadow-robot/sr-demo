@@ -23,27 +23,27 @@ import time, mutex, math
 # Brings in the SimpleActionClient
 import actionlib
 
-# Brings in the messages used by the counter_demoAction, including the
+# Brings in the messages used by the CounterDemoAction, including the
 # goal message and the result message.
 import sr_counting_demo.msg
 
 # This class contains some useful functions for controlling the shadow hand
 import sr_etherCAT_hand_class 
 
-class counter_demoAction(object):
+class CounterDemoAction(object):
     # create messages that are used to publish feedback/result
-    _feedback = sr_counting_demo.msg.counter_demoFeedback()
-    _result   = sr_counting_demo.msg.counter_demoResult()
+    _feedback = sr_counting_demo.msg.CounterDemoFeedback()
+    _result   = sr_counting_demo.msg.CounterDemoResult()
 
     def __init__(self, name):
         """
         The action client and server communicate over a set of topics, described in the actionlib protocol. 
         The action name (name) describes the namespace containing these topics, and the action specification message 
-        (counter_demoAction) describes what messages should be passed along these topics.
+        (CounterDemoAction) describes what messages should be passed along these topics.
         """
     
         self._action_name = name
-        self._as = actionlib.SimpleActionServer(self._action_name, sr_counting_demo.msg.counter_demoAction, 
+        self._as = actionlib.SimpleActionServer(self._action_name, sr_counting_demo.msg.CounterDemoAction, 
                                                 execute_cb = self.execute_cb, auto_start = False)
         self._as.start()
      
@@ -116,7 +116,7 @@ class counter_demoAction(object):
       
 if __name__ == '__main__':
     rospy.init_node('counter_hand_demo')
-    counter_demoAction(rospy.get_name())
+    CounterDemoAction(rospy.get_name())
     rospy.spin()
 
 

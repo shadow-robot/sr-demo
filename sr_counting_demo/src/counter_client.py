@@ -6,14 +6,14 @@ import rospy
 # Brings in the SimpleActionClient
 import actionlib
 
-# Brings in the messages used by the counter_demoAction, including the
+# Brings in the messages used by the CounterDemoAction, including the
 # goal message and the result message.
 import sr_counting_demo.msg
 
 def counter_client():
     # Creates the SimpleActionClient, passing the type of the action
-    # (counter_demoAction) to the constructor.
-    client = actionlib.SimpleActionClient('counter_hand_demo', sr_counting_demo.msg.counter_demoAction)
+    # (CounterDemoAction) to the constructor.
+    client = actionlib.SimpleActionClient('counter_hand_demo', sr_counting_demo.msg.CounterDemoAction)
 
     # Waits until the action server has started up and started
     # listening for goals.
@@ -39,7 +39,7 @@ def counter_client():
         
         
     # Creates a goal to send to the action server
-    goal = sr_counting_demo.msg.counter_demoGoal(target = num_selected)
+    goal = sr_counting_demo.msg.CounterDemoGoal(target = num_selected)
 
     # Sends the goal to the action server
     client.send_goal(goal)
@@ -48,7 +48,7 @@ def counter_client():
     client.wait_for_result()
 
     # Prints out the result of executing the action
-    return client.get_result()  # A counter_demoResult
+    return client.get_result()  # A CounterDemoResult
 
 if __name__ == '__main__':
     try:
