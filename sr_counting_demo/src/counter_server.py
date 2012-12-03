@@ -112,7 +112,7 @@ class CounterDemoAction(object):
             self._as.set_succeeded(self._result)
       
 if __name__ == '__main__':
-    rospy.init_node('counter_hand_demo')
+    rospy.init_node('counter_server_py')
     CounterDemoAction(rospy.get_name())
     rospy.spin()
 

@@ -13,7 +13,7 @@ import sr_counting_demo.msg
 def counter_client():
     # Creates the SimpleActionClient, passing the type of the action
     # (CounterDemoAction) to the constructor.
-    client = actionlib.SimpleActionClient('counter_hand_demo', sr_counting_demo.msg.CounterDemoAction)
+    client = actionlib.SimpleActionClient('counter_server_py', sr_counting_demo.msg.CounterDemoAction)
 
     # Waits until the action server has started up and started
     # listening for goals.
@@ -63,6 +63,7 @@ if __name__ == '__main__':
                 print "The Hand has counted up to", str(result.sequence)
         
             elif (key_type == "q"):
+                print "Remember to type Ctrl-C if you desire to stop the server node too..."
                 break
             
             else: print "Wrong key selected."

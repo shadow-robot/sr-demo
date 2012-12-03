@@ -1,0 +1,14 @@
+<launch>
+
+  <!-- load the parameter nedeed for running the demo -->
+  <rosparam command="load" file="$(find sr_counting_demo)/config/sr_target.yaml"/>
+
+  <!-- start server and client nodes  -->
+ 
+  <node name="counter_server_py" pkg="sr_counting_demo" type="counter_server.py" respawn="false" output="screen" /> 
+ 
+  <node name="counter_client_py" pkg="sr_counting_demo" type="counter_client.py" respawn="false"   output="screen" />  
+  
+</launch>
+
+
