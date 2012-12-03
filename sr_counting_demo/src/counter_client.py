@@ -22,9 +22,7 @@ def counter_client():
     # Ask to the user to select an integer number in the range [1-5] 
     print "Please enter a number that you would like the hand to count [1-5]"
     
-    loop = True
-    
-    while(loop):    
+    while(True):    
 
         # Enter a number from the keyboard
         num_selected = input()
@@ -32,12 +30,10 @@ def counter_client():
         # Check if the number is in the range [1-5]
         if num_selected in range(1,6): 
             print "You have selected number", num_selected  	  	  
-            loop = False        
+            break        
         else:
             print "Please enter a number between 1 and 5"
       
-        
-        
     # Creates a goal to send to the action server
     goal = sr_counting_demo.msg.CounterDemoGoal(target = num_selected)
 
@@ -55,8 +51,23 @@ if __name__ == '__main__':
         # Initializes a rospy node so that the SimpleActionClient can
         # publish and subscribe over ROS.
         rospy.init_node('counter_client_py')
-        result = counter_client()
-        print "The Hand has counted up to", str(result.sequence)
+        
+        # The counter demo continue to run if it is not stopped by the user 
+        while(True):
+            
+            print "Please type s to start the demo or q to quit."
+            key_type = raw_input()
+	    
+            if (key_type == "s"): 
+                result = counter_client() 
+                print "The Hand has counted up to", str(result.sequence)
+        
+            elif (key_type == "q"):
+                break
+            
+            else: print "Wrong key selected."
+            
+       
     except rospy.ROSInterruptException:
         print "program interrupted before completion"
 

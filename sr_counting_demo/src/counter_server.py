@@ -54,7 +54,6 @@ class CounterDemoAction(object):
         """
     
         # helper variables
-        r = rospy.Rate(1)
         success = True
     
         #Initialization of the counterDemo class 
@@ -106,8 +105,6 @@ class CounterDemoAction(object):
 
             # publish the feedback
             self._as.publish_feedback(self._feedback)
-            # this step is not necessary, the sequence is computed at 1 Hz for demonstration purposes
-            #r.sleep()
       
         if success:
             self._result.sequence = self._feedback.sequence
