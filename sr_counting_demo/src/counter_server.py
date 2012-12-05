@@ -30,6 +30,9 @@ import sr_counting_demo.msg
 # This class contains some useful functions for controlling the shadow hand
 import sr_etherCAT_hand_class 
 
+# Brings in the service used for checking the joint state
+from sr_utilities.srv import getJointState
+
 class CounterDemoAction(object):
     # create messages that are used to publish feedback/result
     _feedback = sr_counting_demo.msg.CounterDemoFeedback()
@@ -41,7 +44,7 @@ class CounterDemoAction(object):
         The action name (name) describes the namespace containing these topics, and the action specification message 
         (CounterDemoAction) describes what messages should be passed along these topics.
         """
-    
+        
         self._action_name = name
         self._as = actionlib.SimpleActionServer(self._action_name, sr_counting_demo.msg.CounterDemoAction, 
                                                 execute_cb = self.execute_cb, auto_start = False)
@@ -55,11 +58,18 @@ class CounterDemoAction(object):
     
         # helper variables
         success = True
+
+        # This threshold determines whether the error[rad] between the desired position
+        # and the current position of the hand can be considered acceptable or not
+        threshold = 0.01
+
+        # The current position of the hand is checked at a rate of 10 Hz
+        r = rospy.Rate(10)
     
-        #Initialization of the counterDemo class 
+        # Initialization of the counterDemo class 
         count = sr_etherCAT_hand_class.sr_etherCAT_hand()
 
-        #Target parameters
+        # Target parameters
         one = count.fetch_target('one')
         two = count.fetch_target('two')
         three = count.fetch_target('three')
@@ -68,26 +78,48 @@ class CounterDemoAction(object):
         fist_step1 = count.fetch_target('fist_step1')
         fist_step2 = count.fetch_target('fist_step2')
         hand_extended_pos = count.fetch_target('hand_extended_pos')
-        numbers = [one, two, three, four, five]
+        numbers = [one, two, three, four, five]    
+        
+        # Wait for a service to be ready. This service allows 
+        # to check the current position of each joint of the etherCAT hand 
+        rospy.wait_for_service('getJointState')
+        get_joint_states = rospy.ServiceProxy('getJointState', getJointState)
 
-        #Opens the the hand
-        count.hand_publish(hand_extended_pos)        
-
-        #Waiting for the hand has reached its rest position
-        time.sleep(5)
-    
-        #Publish info to the console for the user
+        # Publish info to the console for the user
         rospy.loginfo('%s: Executing, the hand is going to count from 1 to %i' %(self._action_name, goal.target))
-	 
-        #The hand is going to assume the form of a fist before starting to count
+
+        # Opens the the hand
+        count.hand_publish(hand_extended_pos)    
+
+        # Waiting for the hand to be in the desired position
+        while (True): 
+            curr_pos = count.order_joint_states( get_joint_states() )        
+            if count.compute_joint_error_position(curr_pos, hand_extended_pos) < threshold:
+                break
+            r.sleep()
+               
+        # The hand is going to assume the form of a fist before starting to count
     
-        #Close the hand in two steps, first the thumb...
+        # Close the hand in two steps, first the thumb...
         count.hand_publish(fist_step1)        
-        time.sleep(2)
+        
+        # Waiting for the hand to be in the desired position
+        while (True): 
+            curr_pos = count.order_joint_states( get_joint_states() )        
+            if count.compute_joint_error_position(curr_pos, fist_step1) < threshold:
+                break
+            r.sleep()
 	
         #...and then the other fingers
         count.hand_publish(fist_step2)
-        time.sleep(5)
+        
+        # Waiting for the hand to be in the desired position
+        while (True): 
+            curr_pos = count.order_joint_states( get_joint_states() )        
+            if count.compute_joint_error_position(curr_pos, fist_step2) < threshold:
+                break
+            r.sleep()
+       
 
         # start executing the action: count!
         for i in xrange(0, goal.target):
@@ -99,7 +131,13 @@ class CounterDemoAction(object):
                 break
        
             count.hand_publish(numbers[i])
-            time.sleep(3)					
+       
+            # Waiting for the hand to be in the desired position
+            while (True): 
+                curr_pos = count.order_joint_states( get_joint_states() )        
+                if count.compute_joint_error_position(curr_pos, numbers[i]) < threshold:
+                    break
+                r.sleep()					
 
             self._feedback.sequence = i+1
 

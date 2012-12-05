@@ -5,3 +5,4 @@ sr_counting_demo/build
 sr_counting_demo/msg_gen
 sr_counting_demo/rqt_rviz_ogre.log
 sr_counting_demo/src/sr_counting_demo
+launch/gazebo_arm_and_hand_initial_position.launch
