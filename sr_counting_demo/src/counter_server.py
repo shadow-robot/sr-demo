@@ -28,7 +28,7 @@ import actionlib
 import sr_counting_demo.msg
 
 # This class contains some useful functions for controlling the shadow hand
-import sr_etherCAT_hand_class 
+import sr_counting_demo_functions 
 
 # Brings in the service used for checking the joint state
 from sr_utilities.srv import getJointState
@@ -67,7 +67,7 @@ class CounterDemoAction(object):
         r = rospy.Rate(10)
     
         # Initialization of the counterDemo class 
-        count = sr_etherCAT_hand_class.sr_etherCAT_hand()
+        count = sr_counting_demo_functions.CountingDemoFunctions()
 
         # Target parameters
         one = count.fetch_target('one')

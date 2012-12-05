@@ -24,7 +24,7 @@ from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
 import numpy
 
-class sr_etherCAT_hand(object):
+class CountingDemoFunctions(object):
     """
     This class defines useful functions to be used with the etherCAT Shadow hand.
     """
