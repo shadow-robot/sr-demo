@@ -8,10 +8,10 @@ import thread
 RATE=100
 
 class GetJointState:
-    def __init__(self):
+    def __init__(self, name):
         rospy.init_node('get_joint_state_service', anonymous=True)
 
-        self.subs_1 = rospy.Subscriber("/gazebo/joint_states", JointState, self.callback1)
+        self.subs_1 = rospy.Subscriber(name+"/joint_states", JointState, self.callback1)
 	self.serv = rospy.Service('/getJointState', getJointState, self.getJointStateCB)
         
       # self.pub = rospy.Publisher("/joint_states", JointState)
@@ -33,4 +33,5 @@ class GetJointState:
 	return res
 
 if __name__ == '__main__':
-    service = GetJointState()
+    import sys
+    service = GetJointState(sys.argv[1])

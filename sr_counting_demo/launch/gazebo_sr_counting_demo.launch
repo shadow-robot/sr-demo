@@ -4,7 +4,7 @@
   <rosparam command="load" file="$(find sr_counting_demo)/config/sr_target.yaml"/>
 
   <!-- start joint_state service  -->
-  <node name="get_joint_state_service" pkg="sr_counting_demo" type="get_joint_state.py" respawn="false" output="screen" /> 
+  <node name="get_joint_state_service" pkg="sr_counting_demo" type="get_joint_state.py" args="/gazebo" respawn="false" output="screen" /> 
 
   <!-- start server and client nodes  -->
   <node name="counter_server_py" pkg="sr_counting_demo" type="counter_server.py" respawn="false" output="screen" /> 
