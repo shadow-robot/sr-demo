@@ -1,0 +1,21 @@
+<package>
+  <description brief="sr_knot_demo">
+
+     sr_knot_demo
+
+  </description>
+  <author>Gianlu</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/sr_knot_demo</url>
+  <depend package="rospy"/>
+  <depend package="sr_hand"/>
+  <depend package="actionlib"/>
+  <depend package="roslib"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="actionlib_msgs"/>
+
+</package>
+
+

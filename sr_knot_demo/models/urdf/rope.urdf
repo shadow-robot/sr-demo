@@ -1,0 +1,555 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="rope">
+  <link name="rope_seg_1">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_1">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<link name="rope_seg_2">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_2">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_1" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_1" />
+    <child link="rope_seg_2" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_3">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_3">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_2" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_2" />
+    <child link="rope_seg_3" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_4">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_4">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_3" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_3" />
+    <child link="rope_seg_4" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_5">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_5">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_4" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_4" />
+    <child link="rope_seg_5" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_6">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_6">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_5" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_5" />
+    <child link="rope_seg_6" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_7">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_7">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_6" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_6" />
+    <child link="rope_seg_7" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_8">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_8">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_7" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_7" />
+    <child link="rope_seg_8" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_9">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_9">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_8" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_8" />
+    <child link="rope_seg_9" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_10">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_10">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_9" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_9" />
+    <child link="rope_seg_10" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_11">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_11">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_10" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_10" />
+    <child link="rope_seg_11" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_12">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_12">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_11" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_11" />
+    <child link="rope_seg_12" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_13">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_13">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_12" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_12" />
+    <child link="rope_seg_13" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_14">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_14">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_13" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_13" />
+    <child link="rope_seg_14" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_15">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_15">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_14" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_14" />
+    <child link="rope_seg_15" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_16">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_16">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_15" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_15" />
+    <child link="rope_seg_16" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_17">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_17">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_16" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_16" />
+    <child link="rope_seg_17" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_18">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_18">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_17" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_17" />
+    <child link="rope_seg_18" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_19">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_19">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_18" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_18" />
+    <child link="rope_seg_19" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+<link name="rope_seg_20">
+    <visual>
+      <geometry>
+        <cylinder length="0.015" radius="0.005" />
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.0151" radius="0.0051" />
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.01" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+  </link>
+  <gazebo reference="rope_seg_20">
+    <material>Gazebo/Blue</material>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+<joint name="j_19" type="revolute">
+    <limit effort="5" lower="-0.785" upper="0.785" velocity="6.28" />
+    <parent link="rope_seg_19" />
+    <child link="rope_seg_20" />
+    <origin xyz="0 0 0.015" />
+    <axis xyz="1 0 0" />
+    <dynamics damping="2.0" friction="1.0" />
+  </joint>
+</robot>
