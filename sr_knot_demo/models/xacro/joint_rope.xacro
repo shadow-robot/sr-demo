@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="rope">
+
+<xacro:property name="link_name" value="rope_seg_"/>
+<xacro:property name="length" value="0.01" />
+
+<xacro:property name="effort" value="5"/>
+<xacro:property name="velocity" value="6.28"/>
+<xacro:property name="lower" value="-0.785"/>
+<xacro:property name="upper" value="0.785"/>
+<xacro:property name="damping" value="2"/>
+<xacro:property name="friction" value="0.1"/>
+
+<xacro:property name="axis_x" value="1"/>
+<xacro:property name="axis_y" value="0"/>
+<xacro:property name="axis_z" value="0"/>
+             
+<xacro:macro name="joint_description">
+        <joint name="j_" type="revolute">
+                <limit effort="${effort}" velocity="${velocity}" lower="${lower}" upper="${upper}"/>
+                <parent link="${link_name}"/>
+                <child link="${link_name}"/>
+                <origin xyz="0 0 ${length}"/>
+                <axis xyz= "${axis_x} ${axis_y} ${axis_z}"/>
+                <dynamics damping="${damping}" friction="${friction}"/>
+        </joint>
+</xacro:macro>
+
+<xacro:joint_description />
+
+</robot>
