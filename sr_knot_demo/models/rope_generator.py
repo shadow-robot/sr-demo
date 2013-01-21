@@ -30,34 +30,37 @@ The rope is composed of several cylinders (link) connected by joints (joint).
 """
 
 # Rope description
-rope_length = 0.300 # [m]
+rope_length = 0.500 # [m]
+rope_mass = 0.500 # [Kg]
 
 # Number of cylinders that compose the rope 
-num_cyl = 20
+num_cyl = 10
+
+# Mass of each cylinder [Kg]
+mass = str(rope_mass/num_cyl) 
 
 # Link description
 
 length = str(rope_length/num_cyl) # length of each cylinder [m]
-radius = "0.005"  # radius of each cylinder [m]
+radius = "0.01"  # radius of each cylinder [m]
 
-length_cl = str( float(length) + 0.0001)
-radius_cl = str( float(radius) + 0.0001)
-mass =   "0.010"   # mass   of each cylinder [Kg]
+length_cl = str( float(length) + 0.001) # collision geometry
+radius_cl = str( float(radius) + 0.001) # collision geometry
 
 # Joint description
 
-x = "1 " # don't forget the space 
-y = "0 " # don't forget the space
-z = "0"
+x = "1 " # don't forget the space after the number 
+y = "1 " # don't forget the space after the number
+z = "1"
 friction = "1.0"
-damping = "2.0"
+damping = "1.0"
 
 # Joint Limits
 
 effort = "5" # [N] 
 lower = str(-pi/6) # [rad] 
 upper = str(pi/6) # [rad]
-velocity = "6.28" # [rad/s]
+velocity = str(2*pi) # [rad/s]
 
 # Open a pre-existing xml model of a link in order to modify it
 link_tree = ET.ElementTree(file='xml/link_rope.xml')
@@ -72,8 +75,8 @@ link_name = link_root[0].get('name')
 
 for n in range(1, num_cyl):
     
-    # This step allows to make a copy of of link/joint  
-    # as "separate" child, meaning that is possible
+    # This step allows to make a copy of link/joint  
+    # as "separate" child, so that is possible
     # to modify the attribute of each link/joint 
     # separately  
     tree = ET.ElementTree(file='xml/link_rope.xml')

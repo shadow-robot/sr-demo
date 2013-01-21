@@ -31,6 +31,6 @@
                 </gazebo>
 </xacro:macro>
         
-<xacro:link_description color="Blue"/>
+<xacro:link_description color="WoodFloor"/>
 
 </robot>

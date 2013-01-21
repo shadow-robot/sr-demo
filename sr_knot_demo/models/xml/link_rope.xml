@@ -21,7 +21,7 @@
     </inertial>
   </link>
   <gazebo reference="rope_seg_">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/WoodFloor</material>
     <selfCollide>true</selfCollide>
   </gazebo>
 </robot>
