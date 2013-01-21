@@ -1,0 +1,21 @@
+<package>
+  <description brief="sr_collision_detection">
+
+     sr_collision_detection
+
+  </description>
+  <author>Gianlu</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/sr_collision_detection</url>
+  <depend package="rospy"/>
+  <depend package="sr_hand"/>
+  <depend package="actionlib"/>
+  <depend package="roslib"/>
+  <depend package="roscpp"/>
+  <depend package="std_msgs"/>
+  <depend package="actionlib_msgs"/>
+
+</package>
+
+
