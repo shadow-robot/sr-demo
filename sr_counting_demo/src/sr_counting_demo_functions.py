@@ -26,7 +26,7 @@ import numpy
 
 class CountingDemoFunctions(object):
     """
-    This class defines useful functions to be used with the etherCAT Shadow hand.
+    This class defines useful functions to be used with the etherCAT Shadow hand. 
     """
     def __init__(self):
         
@@ -37,8 +37,9 @@ class CountingDemoFunctions(object):
        
     def create_hand_publishers(self):
         """
-        Creates a dictionnary of publishers to send the targets to the controllers
-        on /sh_??j?_mixed_position_velocity_controller/command
+        Creates a dictionnary of publishers to send the targets to the controllers on:
+ 
+        * /sh_XXjX_mixed_position_velocity_controller/command.
         """
         hand_pub = {}
 
@@ -57,6 +58,10 @@ class CountingDemoFunctions(object):
         """
         Publishes the given pose to the correct controllers for the hand.
         The targets are converted in radians.
+        
+        Args:
+           *pose* (joint): contains specific targets for all the joint of the hand.
+
         """
         for joint in pose:
     
@@ -65,6 +70,12 @@ class CountingDemoFunctions(object):
     def fetch_target(self, name):
         """
         Fetch the targets for the etherCAT hand from the server parameter
+        
+        Args:
+           *name*: target position  
+       
+        Returns:
+           joint (joint)
         """
         target_name = []
     
@@ -81,9 +92,15 @@ class CountingDemoFunctions(object):
     def order_joint_states(self, data):
         """
         Fetch the joint state from a service call.
-        Joints positions are then stored in the same way of the "joint" msg structure.
+        Joints positions are then stored in a "joint" msg structure.
         This will help for comparing current and target position. 
-        @ param data: joint state in the form of a "JointState" msg
+        
+        Args:
+           *data* (JointState): informations about the joint state.
+
+        Returns:
+           joint (joint)
+
         """
         ordered_joint = []
         
@@ -115,8 +132,14 @@ class CountingDemoFunctions(object):
     def compute_joint_error_position(self, current_position, target_position):
         """
         Compute the norm of the error between the current joint position and the target joint position. 
-        @ param current_position: joint current position
-        @ param target_position: joint desired position   
+        
+        Args:
+           *current_position* (joint): joint current position
+           
+           *target_position* (joint): joint desired position   
+        
+        Returns:
+           error (int): norm of the error
         """
         
         # helper variables

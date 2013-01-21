@@ -16,6 +16,10 @@
 # with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+"""
+This node waits for a number to be counted by the hand. As soon as the client (node) sends a number (the goal), the server (node) starts sending commands to the hand.
+"""
+
 import roslib; roslib.load_manifest('sr_counting_demo')
 import rospy
 import time, mutex, math
@@ -40,7 +44,8 @@ class CounterDemoAction(object):
 
     def __init__(self, name):
         """
-        The action client and server communicate over a set of topics, described in the actionlib protocol. 
+        The action client and server communicate over a set of topics, described in the 
+        actionlib protocol. 
         The action name (name) describes the namespace containing these topics, and the action specification message 
         (CounterDemoAction) describes what messages should be passed along these topics.
         """
@@ -53,7 +58,9 @@ class CounterDemoAction(object):
     def execute_cb(self, goal):  
         """
         This is the execute callback function that we'll run everytime a new goal is received. 
-        The goal represents the number that will be counted by the hand.
+
+        Args:
+           *goal* (int): number that will be counted by the hand.         
         """
     
         # helper variables
@@ -61,7 +68,10 @@ class CounterDemoAction(object):
 
         # This threshold determines whether the error[rad] between the desired position
         # and the current position of the hand can be considered acceptable or not
-        threshold = 0.01
+        
+        # Please note that the lower is the threshold and the higher is the time to wait before
+        # the hand has reached the goal position 
+        threshold = 0.02 # [rad]
 
         # The current position of the hand is checked at a rate of 10 Hz
         r = rospy.Rate(10)
