@@ -1,0 +1,19 @@
+<library path="src">
+  <class name="Hand Demos" type="sr_gui_demo1.Sr_Gui_Demo1.SrGuiCountingDemo" base_class_type="rqt_gui_py::Plugin">
+    <description>
+      This plugin allows to select a demo to be run in Gazebo with the Shadow robot hand.   
+    </description>
+    <qtgui>
+      <group>
+        <label>Shadow Robot</label>
+      </group>
+      <group>
+        <label>Hand Demos</label>
+        <icon type="file">images/icons/hand.png</icon>
+        <statustip>A plugin for running some demos for the Shadow robot hand.</statustip>
+      </group>
+        <label>Counting demo</label>
+        <icon type="file">images/icons/Numbers-icon.png</icon>
+    </qtgui>
+  </class>
+</library>
