@@ -37,7 +37,7 @@ start_pose = { 'ffj0': 27.0, 'ffj3': 0, 'ffj4': 0,
 
 print "Start"
 sendupdate(start_pose)
-rospy.sleep(6)
+rospy.sleep(2)
 
 # Wrist wave
 #sendupdate({ 'wrj2': 10 })
@@ -48,15 +48,15 @@ rospy.sleep(6)
 #rospy.sleep(4)
 
 # FF curl
-sendupdate({ 'ffj3': 70 })
-rospy.sleep(2)
+sendupdate({ 'ffj3': 90 })
+rospy.sleep(3)
 sendupdate({ 'ffj0': 120 })
 rospy.sleep(2)
 sendupdate(start_pose)
 rospy.sleep(4)
 
 # RF curl
-sendupdate({ 'rfj0': 120, 'rfj3': 70 })
+sendupdate({ 'rfj0': 120, 'rfj3': 90 })
 rospy.sleep(4)
 sendupdate(start_pose)
 rospy.sleep(4)
