@@ -19,32 +19,52 @@ for jname in joint_names:
 rospy.init_node('demo1')
 
 def sendupdate(joints):
+    print "Sending:"
     for jname in joints:
         if not jname in joint_pubs:
-            print "Joint %s not found"%jname
+            print "\tJoint %s not found"%jname
             return
         msg = Float64()
         msg.data = math.radians( float(joints[jname]) )
-        print jname
+        print "\t" + jname + ": " + str(joints[jname])
         joint_pubs[jname].publish(msg)
 
 start_pose = { 'ffj0': 27.0, 'ffj3': 0, 'ffj4': 0,
-               'rfj0': 27.0, 'rfj3': 0, 'rfj4': 0,
-               'wrj1': 0, 'wrj2': 0 }
+               'rfj0': 40.0, 'rfj3': 0, 'rfj4': 0,
+               'thj1': 20, 'thj2': 31, 'thj3': 0, 'thj4': 25, 'thj5':-29,	
+               'wrj1': 0, 'wrj2': 0 
+}
 
 print "Start"
 sendupdate(start_pose)
-rospy.sleep(10)
+rospy.sleep(6)
 
-sendupdate({ 'wrj2': 10 })
+# Wrist wave
+#sendupdate({ 'wrj2': 10 })
+#rospy.sleep(6)
+#sendupdate({ 'wrj2': -20 })
+#rospy.sleep(6)
+#sendupdate({ 'wrj2': 0 })
+#rospy.sleep(4)
+
+# FF curl
+sendupdate({ 'ffj3': 70 })
+rospy.sleep(2)
+sendupdate({ 'ffj0': 120 })
+rospy.sleep(2)
+sendupdate(start_pose)
 rospy.sleep(4)
 
-sendupdate({ 'wrj2': -20 })
-rospy.sleep(6)
+# RF curl
+sendupdate({ 'rfj0': 120, 'rfj3': 70 })
+rospy.sleep(4)
+sendupdate(start_pose)
+rospy.sleep(4)
 
-sendupdate({ 'wrj2': 0 })
-rospy.sleep(6)
+
+# Back to the start
+sendupdate(start_pose)
 
 print "Sleeping"
-for i in range(1,10):
+for i in range(1,2):
     rospy.sleep(1)
