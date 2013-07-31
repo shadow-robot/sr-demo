@@ -1,0 +1,17 @@
+<package>
+  <description brief="sr_naist_living_machines">
+
+     sr_naist_living_machines - Quick demo using Naist three finger ethercat muscle hand.
+
+  </description>
+  <author>Mark Pitchless</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/sr_naist_living_machines</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="sr_hand"/>
+
+</package>
+
+
