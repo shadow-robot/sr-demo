@@ -2,5 +2,6 @@
   <arg name="hand_serial" default="1082"/>
   <include file="$(find sr_robot_launch)/launch/sr_right_ur10arm_hand.launch" >
     <arg name="hand_serial" value="$(arg hand_serial)"/>
+    <arg name="world" default="$(find sr_graspatron)/worlds/new_world.world"/>
   </include>
 </launch>
