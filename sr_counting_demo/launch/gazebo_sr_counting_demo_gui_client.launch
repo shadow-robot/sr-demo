@@ -1,0 +1,8 @@
+<launch>
+
+    <node name="counter_client_py" pkg="sr_counting_demo" type="counter_client_gui.py" args="$(arg goal)" respawn="false" output="screen" /> 
+
+</launch>
+
+
+
