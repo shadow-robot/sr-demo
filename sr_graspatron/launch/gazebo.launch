@@ -4,6 +4,9 @@
     <arg name="hand_serial" value="$(arg hand_serial)"/>
   </include>
   <node name="graspatron_demo1" pkg="sr_graspatron" type="demo1.py" output="screen">
-      <param name="initial_state_name" type="string" value="initial_state" />
+    <param name="initial_state_name" type="string" value="initial_state" />
+    <param name="arm_group_name" type="string"  value="right_arm"/>
+    <param name="hand_alvar_marker_number" type="int" value="0" />
+    <param name="object_alvar_marker_number" type="int" value="1" />
   </node>
 </launch>
