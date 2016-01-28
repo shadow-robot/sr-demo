@@ -1,0 +1,66 @@
+Language model created by QuickLM on Thu Jan 28 17:18:23 EST 2016
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 8 sentences and 13 words
+
+\data\
+ngram 1=13
+ngram 2=19
+ngram 3=11
+
+\1-grams:
+-0.8293 </s> -0.3010
+-0.8293 <s> -0.2314
+-1.7324 ADJUSTABLE -0.2929
+-1.7324 CLEANER -0.2314
+-1.7324 DRIVER -0.2314
+-1.7324 GLASS -0.2929
+-1.7324 GRASP -0.2314
+-1.7324 PREPARE -0.2314
+-1.7324 PUT -0.2314
+-1.7324 SAUCEPAN -0.2314
+-1.7324 SCREW -0.2929
+-1.7324 WASHER -0.2314
+-1.7324 WRENCH -0.2314
+
+\2-grams:
+-1.2041 <s> ADJUSTABLE 0.0000
+-1.2041 <s> GLASS 0.0000
+-1.2041 <s> GRASP 0.0000
+-1.2041 <s> PREPARE 0.0000
+-1.2041 <s> PUT 0.0000
+-1.2041 <s> SAUCEPAN 0.0000
+-1.2041 <s> SCREW 0.0000
+-1.2041 <s> WASHER 0.0000
+-0.3010 ADJUSTABLE WRENCH 0.0000
+-0.3010 CLEANER </s> -0.3010
+-0.3010 DRIVER </s> -0.3010
+-0.3010 GLASS CLEANER 0.0000
+-0.3010 GRASP </s> -0.3010
+-0.3010 PREPARE </s> -0.3010
+-0.3010 PUT </s> -0.3010
+-0.3010 SAUCEPAN </s> -0.3010
+-0.3010 SCREW DRIVER 0.0000
+-0.3010 WASHER </s> -0.3010
+-0.3010 WRENCH </s> -0.3010
+
+\3-grams:
+-0.3010 <s> ADJUSTABLE WRENCH
+-0.3010 <s> GLASS CLEANER
+-0.3010 <s> GRASP </s>
+-0.3010 <s> PREPARE </s>
+-0.3010 <s> PUT </s>
+-0.3010 <s> SAUCEPAN </s>
+-0.3010 <s> SCREW DRIVER
+-0.3010 <s> WASHER </s>
+-0.3010 ADJUSTABLE WRENCH </s>
+-0.3010 GLASS CLEANER </s>
+-0.3010 SCREW DRIVER </s>
+
+\end\

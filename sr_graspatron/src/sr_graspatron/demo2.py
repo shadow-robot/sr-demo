@@ -13,7 +13,7 @@ from sr_robot_commander.sr_arm_commander import SrArmCommander
 from sr_robot_commander.sr_hand_commander import SrHandCommander
 from sr_graspatron.gazebo_sim_support import initialize_gazebo_simulation, terminate_gazebo_simulation
 from sound_play.libsoundplay import SoundClient
-from sound_play.msg import SoundRequest
+from std_msgs.msg import String
 
 
 def get_hand_to_object_transformation():
@@ -36,14 +36,24 @@ def get_hand_to_object_transformation():
                         " and " + object_alvar_marker_name)
     return hand_to_object_transformation
 
+
+def speech_recognition_callback(message):
+    rospy.loginfo("Recognized => %s", message.data)
+
 if __name__ == "__main__":
 
     rospy.init_node("graspatron_demo2")
+
+    rospy.Subscriber("recognizer/output", String, speech_recognition_callback)
 
     sound_handle = SoundClient()
     rospy.sleep(1)
 
     sound_handle.say("Waiting for command", "voice_kal_diphone")
+
+    r = rospy.Rate(10.0)
+    while not rospy.is_shutdown():
+        r.sleep()
 
     raise Exception()
 
