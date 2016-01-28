@@ -22,6 +22,7 @@ def get_pose(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0):
     object_pose.orientation.w = quaternion[3]
     return object_pose
 
+
 def get_gazebo_world_models_name():
     rospy.wait_for_service("/gazebo/get_world_properties")
     world_properties = rospy.ServiceProxy("/gazebo/get_world_properties", GetWorldProperties)

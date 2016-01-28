@@ -70,7 +70,7 @@ def get_hand_to_object_transformation():
             hand_to_object_transformation = transformations_buffer.lookup_transform(hand_alvar_marker_name,
                                                                                     object_alvar_marker_name,
                                                                                     rospy.Time())
-            found
+            found = True
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             rate.sleep()
         i += 1
@@ -141,7 +141,7 @@ if __name__ == "__main__":
     rospy.sleep(4)
 
     rospy.loginfo("Setting pre-grasp pose...")
-    pre_grasp_pose_name = rospy.get_param("pre_grasp_pose_name", "pre_grasp")
+    pre_grasp_pose_name = rospy.get_param("/settings/pre_grasp_pose_name", "pre_grasp")
     hand_commander.move_to_named_target(pre_grasp_pose_name, True)
 
     rospy.loginfo("Moving close to object...")
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     rospy.sleep(4)
 
     rospy.loginfo("Grasping object...")
-    grasp_pose_name = rospy.get_param("grasp_pose_name", "grasp")
+    grasp_pose_name = rospy.get_param("/settings/grasp_pose_name", "grasp")
     hand_commander.move_to_named_target(grasp_pose_name, True)
 
     rospy.loginfo("Picking the object up...")

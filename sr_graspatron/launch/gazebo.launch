@@ -6,11 +6,13 @@
   <group ns="settings">
     <param name="simulation" type="bool" value="true" />
     <param name="initial_state_name" type="string" value="gazebo_initial_state" />
-    <param name="pre_grasp_pose_name" type="string" value="gazebo_pre_grasp_pose" />
-    <param name="grasp_pose_name" type="string" value="gazebo_grasp" />
+    <param name="pre_grasp_pose_name" type="string" value="open" />
+    <param name="grasp_pose_name" type="string" value="fingers_pack_thumb_open" />
     <param name="arm_group_name" type="string"  value="right_arm"/>
     <param name="hand_alvar_marker_number" type="int" value="0" />
     <param name="object_alvar_marker_number" type="int" value="1" />
   </group>
+
+  <!--Need to run it manually due to synchronization issue-->
   <!--<node name="gazebo_sim_support" pkg="sr_graspatron" type="gazebo_sim_support.py" output="screen"/>-->
 </launch>
