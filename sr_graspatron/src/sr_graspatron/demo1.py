@@ -2,62 +2,16 @@
 """
 See README.md
 """
-import math
 
-import roslib
 import rospy
 import tf2_ros
 from geometry_msgs.msg import PoseStamped
-
 from moveit_commander import RobotCommander
 from moveit_commander import PlanningSceneInterface
 from moveit_commander import MoveGroupCommander
-
 from sr_robot_commander.sr_arm_commander import SrArmCommander
 from sr_robot_commander.sr_hand_commander import SrHandCommander
-from sr_graspatron.utils import *
-
-
-def add_or_update_model(existing_models, model_name, pose, model_type=None, filename=None, hard_reset=False):
-    add_new_model = False
-    if model_name in existing_models:
-        rospy.loginfo("Updating {} position...".format(model_name))
-        if hard_reset:
-            delete_gazebo_model(model_name)
-            rospy.sleep(2)
-            add_new_model = True
-        else:
-            update_gazebo_model(model_name, pose)
-    else:
-        rospy.loginfo("Adding new {}...".format(model_name))
-        add_new_model = True
-
-    if add_new_model:
-        if filename is not None:
-            if model_type is not None:
-                message = "Only one parameter should be provided model_type or filename"
-                rospy.logerr(message)
-                raise Exception(message)
-            add_gazebo_model_from_sdf(model_name, filename, pose)
-        elif model_type is not None:
-            add_gazebo_model_from_database(model_name, model_type, pose)
-        else:
-            message = "Either model_type or filename should be provided"
-            rospy.logerr(message)
-            raise Exception(message)
-
-
-def setup_gazebo_world():
-    existing_models = get_gazebo_world_models_name()
-
-    table_pose = get_pose(0.8, 0.45, yaw=math.pi / 2)
-    add_or_update_model(existing_models, "main_table", table_pose, "table")
-
-    object_position = get_pose(0.67, -0.22, 1.015)
-    add_or_update_model(existing_models, "my_object", object_position,
-                        filename=roslib.packages.get_pkg_dir("sr_graspatron") + "/models/glass_cleaner.sdf",
-                        hard_reset=True)
-    rospy.sleep(2)
+from sr_graspatron.gazebo_sim_support import initialize_gazebo_simulation, terminate_gazebo_simulation
 
 
 def get_hand_to_object_transformation():
@@ -86,7 +40,7 @@ if __name__ == "__main__":
 
     if rospy.get_param("/settings/simulation", False):
         # TODO Add cube as an obstacle to moveit group
-        setup_gazebo_world()
+        initialize_gazebo_simulation()
 
     scene = PlanningSceneInterface()
     robot = RobotCommander()
@@ -187,3 +141,7 @@ if __name__ == "__main__":
     rospy.loginfo("Moving to initial position...")
     hand_commander.move_to_named_target(initial_state_name, False)
     arm_commander.move_to_named_target(initial_state_name, True)
+
+    if rospy.get_param("/settings/simulation", False):
+        terminate_gazebo_simulation()
+

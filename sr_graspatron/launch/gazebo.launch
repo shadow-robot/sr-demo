@@ -12,7 +12,4 @@
     <param name="hand_alvar_marker_number" type="int" value="0" />
     <param name="object_alvar_marker_number" type="int" value="1" />
   </group>
-
-  <!--Need to run it manually due to synchronization issue-->
-  <!--<node name="gazebo_sim_support" pkg="sr_graspatron" type="gazebo_sim_support.py" output="screen"/>-->
 </launch>

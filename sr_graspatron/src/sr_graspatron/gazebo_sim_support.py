@@ -5,6 +5,9 @@ See README.md
 
 import rospy
 import tf2_ros
+import roslib
+from threading import Thread
+from rospy.exceptions import ROSException
 from geometry_msgs.msg import TransformStamped
 from gazebo_msgs.srv import GetLinkState
 from sr_robot_commander.sr_arm_commander import SrArmCommander
@@ -12,16 +15,125 @@ from moveit_msgs.srv import SaveRobotStateToWarehouse as SaveState
 from moveit_commander import MoveGroupCommander
 from sensor_msgs.msg import JointState
 from moveit_msgs.msg import RobotState
+from sr_graspatron.utils import *
 
 
-if __name__ == "__main__":
+broadcast_thread = None
 
-    rospy.init_node("gazebo_sim_support")
+
+class BroadcastThread(Thread):
+
+    def __init__(self):
+        Thread.__init__(self)
+        self.__stop = False
+        rospy.wait_for_service("/gazebo/get_link_state")
+        self.__get_link_state_service = rospy.ServiceProxy("/gazebo/get_link_state", GetLinkState)
+        alvar_marker_prefix = "ar_marker_"
+        hand_alvar_marker_name = alvar_marker_prefix + str(rospy.get_param("/settings/hand_alvar_marker_number", 0))
+        object_alvar_marker_number = rospy.get_param("/settings/object_alvar_marker_number", 1)
+        object_alvar_marker_name = alvar_marker_prefix + str(object_alvar_marker_number)
+
+        self.__tf2_broadcaster = tf2_ros.TransformBroadcaster()
+        self.__hand_to_object_transformation = TransformStamped()
+        self.__hand_to_object_transformation.header.frame_id = object_alvar_marker_name
+        self.__hand_to_object_transformation.child_frame_id = hand_alvar_marker_name
+
+        self.__object_to_world_transformation = TransformStamped()
+        self.__object_to_world_transformation.header.frame_id = "world"
+        self.__object_to_world_transformation.child_frame_id = object_alvar_marker_name
+
+    def shutdown(self):
+        self.__stop = True
+
+    def run(self):
+        rate = rospy.Rate(10)
+        try:
+            while not self.__stop and not rospy.is_shutdown():
+                self.__hand_to_object_transformation.header.stamp = rospy.Time.now()
+                # Publishing reverse transformation due to Gazebo unpredictable results
+                my_object_relative_position = self.__get_link_state_service("ur10srh::rh_wrist", "my_object::link")
+                pose = my_object_relative_position.link_state.pose
+                self.__hand_to_object_transformation.transform.translation.x = pose.position.x
+                self.__hand_to_object_transformation.transform.translation.y = pose.position.y
+                self.__hand_to_object_transformation.transform.translation.z = pose.position.z
+                self.__hand_to_object_transformation.transform.rotation.x = pose.orientation.x
+                self.__hand_to_object_transformation.transform.rotation.y = pose.orientation.y
+                self.__hand_to_object_transformation.transform.rotation.z = pose.orientation.z
+                self.__hand_to_object_transformation.transform.rotation.w = pose.orientation.w
+                self.__tf2_broadcaster.sendTransform(self.__hand_to_object_transformation)
+
+                self.__object_to_world_transformation.header.stamp = rospy.Time().now()
+                # Publishing tf to world frame to avoid warning in the logs
+                object_relative_position = self.__get_link_state_service("my_object::link", "world")
+                pose = object_relative_position.link_state.pose
+                self.__object_to_world_transformation.transform.translation.x = pose.position.x
+                self.__object_to_world_transformation.transform.translation.y = pose.position.y
+                self.__object_to_world_transformation.transform.translation.z = pose.position.z
+                self.__object_to_world_transformation.transform.rotation.x = pose.orientation.x
+                self.__object_to_world_transformation.transform.rotation.y = pose.orientation.y
+                self.__object_to_world_transformation.transform.rotation.z = pose.orientation.z
+                self.__object_to_world_transformation.transform.rotation.w = pose.orientation.w
+                self.__tf2_broadcaster.sendTransform(self.__object_to_world_transformation)
+
+                rate.sleep()
+        except ROSException:
+            pass
+
+
+def add_or_update_model(existing_models, model_name, pose, model_type=None, filename=None, hard_reset=False):
+    add_new_model = False
+    if model_name in existing_models:
+        rospy.loginfo("Updating {} position...".format(model_name))
+        if hard_reset:
+            delete_gazebo_model(model_name)
+            rospy.sleep(2)
+            add_new_model = True
+        else:
+            update_gazebo_model(model_name, pose)
+    else:
+        rospy.loginfo("Adding new {}...".format(model_name))
+        add_new_model = True
+
+    if add_new_model:
+        if filename is not None:
+            if model_type is not None:
+                message = "Only one parameter should be provided model_type or filename"
+                rospy.logerr(message)
+                raise Exception(message)
+            add_gazebo_model_from_sdf(model_name, filename, pose)
+        elif model_type is not None:
+            add_gazebo_model_from_database(model_name, model_type, pose)
+        else:
+            message = "Either model_type or filename should be provided"
+            rospy.logerr(message)
+            raise Exception(message)
+
+
+def setup_gazebo_world():
+    existing_models = get_gazebo_world_models_name()
+
+    table_pose = get_pose(1.0, 0.7, 0.01)
+    add_or_update_model(existing_models, "main_table", table_pose,
+                        filename=roslib.packages.get_pkg_dir("sr_graspatron") + "/models/simple_box.sdf")
+
+    rospy.sleep(1)
+
+    object_position = get_pose(0.8, 0.7, 0.515)
+    add_or_update_model(existing_models, "my_object", object_position,
+                        filename=roslib.packages.get_pkg_dir("sr_graspatron") + "/models/glass_cleaner.sdf",
+                        hard_reset=True)
+    rospy.sleep(2)
+
+
+def initialize_gazebo_simulation():
+
+    global broadcast_thread
 
     rospy.loginfo("Waiting for warehouse services...")
     rospy.wait_for_service("save_robot_state")
     save_robot_state_service = rospy.ServiceProxy("save_robot_state", SaveState)
 
+    rospy.loginfo("Moving to initial pose...")
     arm_commander = SrArmCommander()
 
     group_id = rospy.get_param("/settings/arm_group_name")
@@ -38,7 +150,6 @@ if __name__ == "__main__":
     rospy.sleep(4)
 
     robot_state = RobotState()
-    current_dict = {}
     current_dict = arm_commander.get_robot_state_bounded()
     robot_name = arm_commander.get_robot_name()
     robot_state.joint_state = JointState()
@@ -48,49 +159,14 @@ if __name__ == "__main__":
                              robot_state)
     rospy.loginfo("Saved initial state to database")
 
+    rospy.loginfo("Setting up Gazebo world...")
+    setup_gazebo_world()
+
     rospy.loginfo("Starting broadcasting hand to object transformation...")
-    rospy.wait_for_service("/gazebo/get_link_state")
-    get_link_state_service = rospy.ServiceProxy("/gazebo/get_link_state", GetLinkState)
-    alvar_marker_prefix = "ar_marker_"
-    hand_alvar_marker_name = alvar_marker_prefix + str(rospy.get_param("/settings/hand_alvar_marker_number", 0))
-    object_alvar_marker_number = rospy.get_param("/settings/object_alvar_marker_number", 1)
-    object_alvar_marker_name = alvar_marker_prefix + str(object_alvar_marker_number)
+    broadcast_thread = BroadcastThread()
+    broadcast_thread.start()
 
-    rate = rospy.Rate(10)
-    tf2_broadcaster = tf2_ros.TransformBroadcaster()
-    hand_to_object_transformation = TransformStamped()
-    hand_to_object_transformation.header.frame_id = object_alvar_marker_name
-    hand_to_object_transformation.child_frame_id = hand_alvar_marker_name
 
-    object_to_world_transformation = TransformStamped()
-    object_to_world_transformation.header.frame_id = "world"
-    object_to_world_transformation.child_frame_id = object_alvar_marker_name
-
-    while not rospy.is_shutdown():
-        hand_to_object_transformation.header.stamp = rospy.Time.now()
-        # Publishing reverse transformation due to Gazebo unpredictable results
-        my_object_relative_position = get_link_state_service("ur10srh::rh_wrist", "my_object::link")
-        pose = my_object_relative_position.link_state.pose
-        hand_to_object_transformation.transform.translation.x = pose.position.x
-        hand_to_object_transformation.transform.translation.y = pose.position.y
-        hand_to_object_transformation.transform.translation.z = pose.position.z
-        hand_to_object_transformation.transform.rotation.x = pose.orientation.x
-        hand_to_object_transformation.transform.rotation.y = pose.orientation.y
-        hand_to_object_transformation.transform.rotation.z = pose.orientation.z
-        hand_to_object_transformation.transform.rotation.w = pose.orientation.w
-        tf2_broadcaster.sendTransform(hand_to_object_transformation)
-
-        object_to_world_transformation.header.stamp = rospy.Time().now()
-        # Publishing tf to world frame to avoid warhing in the logs
-        object_relative_position = get_link_state_service("my_object::link", "world")
-        pose = object_relative_position.link_state.pose
-        object_to_world_transformation.transform.translation.x = pose.position.x
-        object_to_world_transformation.transform.translation.y = pose.position.y
-        object_to_world_transformation.transform.translation.z = pose.position.z
-        object_to_world_transformation.transform.rotation.x = pose.orientation.x
-        object_to_world_transformation.transform.rotation.y = pose.orientation.y
-        object_to_world_transformation.transform.rotation.z = pose.orientation.z
-        object_to_world_transformation.transform.rotation.w = pose.orientation.w
-        tf2_broadcaster.sendTransform(object_to_world_transformation)
-
-        rate.sleep()
+def terminate_gazebo_simulation():
+    if broadcast_thread is not None:
+        broadcast_thread.shutdown()
