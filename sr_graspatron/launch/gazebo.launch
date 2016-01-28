@@ -3,6 +3,7 @@
   <include file="$(find sr_robot_launch)/launch/sr_right_ur10arm_hand.launch" >
     <arg name="hand_serial" value="$(arg hand_serial)"/>
   </include>
+  <include file="$(find sr_multi_moveit_config)/launch/default_warehouse_db.launch"/>
   <group ns="settings">
     <param name="simulation" type="bool" value="true" />
     <param name="initial_state_name" type="string" value="gazebo_initial_state" />
