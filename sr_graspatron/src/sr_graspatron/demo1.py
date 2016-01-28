@@ -84,8 +84,8 @@ if __name__ == "__main__":
     robot_frame = group.get_pose_reference_frame()
 
     pre_grasp_pose = group.get_current_pose().pose
-    pre_grasp_delta = 0.3
-    pre_grasp_pose.position.x += hand_to_object_transformation.transform.translation.x - pre_grasp_delta
+    pre_grasp_delta = 0.2
+    pre_grasp_pose.position.x += hand_to_object_transformation.transform.translation.x
     pre_grasp_pose.position.y += hand_to_object_transformation.transform.translation.y - pre_grasp_delta
     pre_grasp_pose.position.z += hand_to_object_transformation.transform.translation.z
     group.clear_pose_targets()
@@ -102,8 +102,8 @@ if __name__ == "__main__":
     hand_to_object_transformation = get_hand_to_object_transformation()
     grasp_pose = group.get_current_pose().pose
     grasp_delta = 0.1
-    grasp_pose.position.x += hand_to_object_transformation.transform.translation.x - grasp_delta
-    grasp_pose.position.y += hand_to_object_transformation.transform.translation.y
+    grasp_pose.position.x += hand_to_object_transformation.transform.translation.x
+    grasp_pose.position.y += hand_to_object_transformation.transform.translation.y - grasp_delta
     grasp_pose.position.z += hand_to_object_transformation.transform.translation.z
     group.clear_pose_targets()
     group.set_pose_target(grasp_pose)
