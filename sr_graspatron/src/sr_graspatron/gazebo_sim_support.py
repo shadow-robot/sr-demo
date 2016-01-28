@@ -49,31 +49,34 @@ class BroadcastThread(Thread):
         rate = rospy.Rate(10)
         try:
             while not self.__stop and not rospy.is_shutdown():
-                self.__hand_to_object_transformation.header.stamp = rospy.Time.now()
-                # Publishing reverse transformation due to Gazebo unpredictable results
-                my_object_relative_position = self.__get_link_state_service("ur10srh::rh_wrist", "my_object::link")
-                pose = my_object_relative_position.link_state.pose
-                self.__hand_to_object_transformation.transform.translation.x = pose.position.x
-                self.__hand_to_object_transformation.transform.translation.y = pose.position.y
-                self.__hand_to_object_transformation.transform.translation.z = pose.position.z
-                self.__hand_to_object_transformation.transform.rotation.x = pose.orientation.x
-                self.__hand_to_object_transformation.transform.rotation.y = pose.orientation.y
-                self.__hand_to_object_transformation.transform.rotation.z = pose.orientation.z
-                self.__hand_to_object_transformation.transform.rotation.w = pose.orientation.w
-                self.__tf2_broadcaster.sendTransform(self.__hand_to_object_transformation)
+                object_relative_position = self.__get_link_state_service("my_object::link", "world")
+                wrist_relative_position = self.__get_link_state_service("ur10srh::rh_wrist", "world")
 
+                object_pose = object_relative_position .link_state.pose
                 self.__object_to_world_transformation.header.stamp = rospy.Time().now()
                 # Publishing tf to world frame to avoid warning in the logs
-                object_relative_position = self.__get_link_state_service("my_object::link", "world")
-                pose = object_relative_position.link_state.pose
-                self.__object_to_world_transformation.transform.translation.x = pose.position.x
-                self.__object_to_world_transformation.transform.translation.y = pose.position.y
-                self.__object_to_world_transformation.transform.translation.z = pose.position.z
-                self.__object_to_world_transformation.transform.rotation.x = pose.orientation.x
-                self.__object_to_world_transformation.transform.rotation.y = pose.orientation.y
-                self.__object_to_world_transformation.transform.rotation.z = pose.orientation.z
-                self.__object_to_world_transformation.transform.rotation.w = pose.orientation.w
+                self.__object_to_world_transformation.transform.translation.x = object_pose.position.x
+                self.__object_to_world_transformation.transform.translation.y = object_pose.position.y
+                self.__object_to_world_transformation.transform.translation.z = object_pose.position.z
+                self.__object_to_world_transformation.transform.rotation.x = object_pose.orientation.x
+                self.__object_to_world_transformation.transform.rotation.y = object_pose.orientation.y
+                self.__object_to_world_transformation.transform.rotation.z = object_pose.orientation.z
+                self.__object_to_world_transformation.transform.rotation.w = object_pose.orientation.w
                 self.__tf2_broadcaster.sendTransform(self.__object_to_world_transformation)
+
+                wrist_pose = wrist_relative_position.link_state.pose
+                self.__hand_to_object_transformation.header.stamp = rospy.Time.now()
+                self.__hand_to_object_transformation.transform.translation.x = (object_pose.position.x -
+                                                                                wrist_pose.position.x)
+                self.__hand_to_object_transformation.transform.translation.y = (object_pose.position.y -
+                                                                                wrist_pose.position.y)
+                self.__hand_to_object_transformation.transform.translation.z = (object_pose.position.z -
+                                                                                wrist_pose.position.z)
+                self.__hand_to_object_transformation.transform.rotation.x = wrist_pose.orientation.x
+                self.__hand_to_object_transformation.transform.rotation.y = wrist_pose.orientation.y
+                self.__hand_to_object_transformation.transform.rotation.z = wrist_pose.orientation.z
+                self.__hand_to_object_transformation.transform.rotation.w = wrist_pose.orientation.w
+                self.__tf2_broadcaster.sendTransform(self.__hand_to_object_transformation)
 
                 rate.sleep()
         except ROSException:
@@ -141,9 +144,14 @@ def initialize_gazebo_simulation():
 
     group.clear_pose_targets()
     initial_pose = group.get_current_pose().pose
-    initial_pose.position.x = 0.5
-    initial_pose.position.y = 0.5
-    initial_pose.position.z = 0.7
+    initial_pose.position.x = 0.36643666952
+    initial_pose.position.y = 0.0710018954239
+    initial_pose.position.z = 0.897101685535
+    initial_pose.orientation.x = -0.644286785844
+    initial_pose.orientation.y = 0.123669678951
+    initial_pose.orientation.z = -0.0423218963893
+    initial_pose.orientation.w = 0.753531157406
+
     group.set_pose_target(initial_pose)
     plan = group.plan()
     group.execute(plan)

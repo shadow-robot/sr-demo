@@ -71,7 +71,7 @@ if __name__ == "__main__":
     hand_commander.move_to_named_target(initial_state_name, False)
     arm_commander.move_to_named_target(initial_state_name, True)
 
-    rospy.loginfo("Seaching transformation between hand and object...")
+    rospy.loginfo("Searching transformation between hand and object...")
     transformations_buffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(transformations_buffer)
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     hand_commander.move_to_named_target(grasp_pose_name, True)
 
     rospy.loginfo("Picking the object up...")
-    raise_height = 0.3
+    raise_height = 0.2
     grasp_pose = group.get_current_pose().pose
     grasp_pose.position.z += raise_height
     group.clear_pose_targets()
