@@ -8,7 +8,6 @@ import tf2_ros
 from geometry_msgs.msg import TransformStamped
 from gazebo_msgs.srv import GetLinkState
 from sr_robot_commander.sr_arm_commander import SrArmCommander
-from sr_robot_commander.sr_hand_commander import SrHandCommander
 from moveit_msgs.srv import SaveRobotStateToWarehouse as SaveState
 from moveit_commander import MoveGroupCommander
 from sensor_msgs.msg import JointState
@@ -19,7 +18,10 @@ if __name__ == "__main__":
 
     rospy.init_node("gazebo_sim_support")
 
-    hand_commander = SrHandCommander()
+    rospy.loginfo("Waiting for warehouse services...")
+    rospy.wait_for_service("save_robot_state")
+    save_robot_state_service = rospy.ServiceProxy("save_robot_state", SaveState)
+
     arm_commander = SrArmCommander()
 
     group_id = rospy.get_param("/settings/arm_group_name")
@@ -34,10 +36,6 @@ if __name__ == "__main__":
     plan = group.plan()
     group.execute(plan)
     rospy.sleep(4)
-
-    rospy.loginfo("Waiting for warehouse services...")
-    rospy.wait_for_service("save_robot_state")
-    save_robot_state_service = rospy.ServiceProxy("save_robot_state", SaveState)
 
     robot_state = RobotState()
     current_dict = {}
