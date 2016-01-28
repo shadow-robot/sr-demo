@@ -25,18 +25,18 @@ if __name__ == "__main__":
     group_id = rospy.get_param("/settings/arm_group_name")
     group = MoveGroupCommander(group_id)
 
-    initial_pose = group.get_current_pose().pose
-    initial_pose.position.x = 0.0
-    initial_pose.position.y = 0.0
-    initial_pose.position.z = 1.0
     group.clear_pose_targets()
+    initial_pose = group.get_current_pose().pose
+    initial_pose.position.x = 0.5
+    initial_pose.position.y = 0.5
+    initial_pose.position.z = 0.7
     group.set_pose_target(initial_pose)
     plan = group.plan()
     group.execute(plan)
     rospy.sleep(4)
 
     rospy.loginfo("Waiting for warehouse services...")
-    rospy.wait_for_service("moveit_warehouse_services/save_robot_state")  # TODO Check service name !!!
+    rospy.wait_for_service("save_robot_state")
     save_robot_state_service = rospy.ServiceProxy("save_robot_state", SaveState)
 
     robot_state = RobotState()
@@ -64,6 +64,10 @@ if __name__ == "__main__":
     hand_to_object_transformation.header.frame_id = object_alvar_marker_name
     hand_to_object_transformation.child_frame_id = hand_alvar_marker_name
 
+    object_to_world_transformation = TransformStamped()
+    object_to_world_transformation.header.frame_id = "world"
+    object_to_world_transformation.child_frame_id = object_alvar_marker_name
+
     while not rospy.is_shutdown():
         hand_to_object_transformation.header.stamp = rospy.Time.now()
         # Publishing reverse transformation due to Gazebo unpredictable results
@@ -77,4 +81,18 @@ if __name__ == "__main__":
         hand_to_object_transformation.transform.rotation.z = pose.orientation.z
         hand_to_object_transformation.transform.rotation.w = pose.orientation.w
         tf2_broadcaster.sendTransform(hand_to_object_transformation)
+
+        object_to_world_transformation.header.stamp = rospy.Time().now()
+        # Publishing tf to world frame to avoid warhing in the logs
+        object_relative_position = get_link_state_service("my_object::link", "world")
+        pose = object_relative_position.link_state.pose
+        object_to_world_transformation.transform.translation.x = pose.position.x
+        object_to_world_transformation.transform.translation.y = pose.position.y
+        object_to_world_transformation.transform.translation.z = pose.position.z
+        object_to_world_transformation.transform.rotation.x = pose.orientation.x
+        object_to_world_transformation.transform.rotation.y = pose.orientation.y
+        object_to_world_transformation.transform.rotation.z = pose.orientation.z
+        object_to_world_transformation.transform.rotation.w = pose.orientation.w
+        tf2_broadcaster.sendTransform(object_to_world_transformation)
+
         rate.sleep()
