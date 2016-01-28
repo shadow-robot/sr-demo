@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(sr_graspatron)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED)
-
+find_package(catkin REQUIRED COMPONENTS
+        rostest
+        rospy
+        moveit_commander
+        pluginlib
+        moveit_core
+        moveit_ros_planning_interface
+        moveit_ros_perception
+        interactive_markers
+        moveit_msgs
+        gazebo_msgs
+)
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 

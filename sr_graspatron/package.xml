@@ -4,13 +4,40 @@
   <version>0.0.1</version>
   <description>The sr_graspatron package</description>
   <maintainer email="software@shadowrobot.com">Shadow Robot's software team</maintainer>
+  <url type="repository">https://github.com/shadow-robot/sr-demo</url>
+  <url type="bugtracker">https://github.com/shadow-robot/sr-demo/issues</url>
 
   <license>GPL</license>
   <buildtool_depend>catkin</buildtool_depend>
+
   <build_depend>rospy</build_depend>
+  <build_depend>moveit_commander</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>moveit_core</build_depend>
+  <build_depend>moveit_ros_planning_interface</build_depend>
+  <build_depend>moveit_ros_perception</build_depend>
+  <build_depend>interactive_markers</build_depend>
+  <build_depend>moveit_ros_planning</build_depend>
+  <build_depend>moveit_msgs</build_depend>
+  <build_depend>gazebo_msgs</build_depend>
+
   <run_depend>rospy</run_depend>
+  <run_depend>moveit_commander</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>moveit_core</run_depend>
+  <run_depend>moveit_fake_controller_manager</run_depend>
+  <run_depend>moveit_ros_planning_interface</run_depend>
+  <run_depend>moveit_ros_perception</run_depend>
+  <run_depend>interactive_markers</run_depend>
+  <run_depend>moveit_ros_planning</run_depend>
+  <run_depend>moveit_msgs</run_depend>
+  <run_depend>gazebo_msgs</run_depend>
+
+  <run_depend>moveit_ros_move_group</run_depend>
+  <run_depend>moveit_planners_ompl</run_depend>
+  <run_depend>moveit_ros_visualization</run_depend>
   <run_depend>sr_robot_launch</run_depend>
 
-  <url type="repository">https://github.com/shadow-robot/sr-demo</url>
-  <url type="bugtracker">https://github.com/shadow-robot/sr-demo/issues</url>
+  <test_depend>rostest</test_depend>
+
 </package>
