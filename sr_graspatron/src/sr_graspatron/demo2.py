@@ -5,6 +5,7 @@ See README.md
 
 import rospy
 import tf2_ros
+import threading
 from geometry_msgs.msg import PoseStamped
 from moveit_commander import RobotCommander
 from moveit_commander import PlanningSceneInterface
@@ -38,24 +39,14 @@ def get_hand_to_object_transformation():
 
 
 def speech_recognition_callback(message):
+    global recognized_message
     rospy.loginfo("Recognized => %s", message.data)
+    recognized_message = message.data
+    message_arrived_trigger_event.set()
 
 if __name__ == "__main__":
 
     rospy.init_node("graspatron_demo2")
-
-    rospy.Subscriber("recognizer/output", String, speech_recognition_callback)
-
-    sound_handle = SoundClient()
-    rospy.sleep(1)
-
-    sound_handle.say("Waiting for command", "voice_kal_diphone")
-
-    r = rospy.Rate(10.0)
-    while not rospy.is_shutdown():
-        r.sleep()
-
-    raise Exception()
 
     if rospy.get_param("/settings/simulation", False):
         # TODO Add cube as an obstacle to moveit group
@@ -77,85 +68,59 @@ if __name__ == "__main__":
     scene.add_box("ground", p, (3, 3, 0.1))
     rospy.sleep(1)
 
-    alvar_marker_prefix = "ar_marker_"
-    initial_state_name = rospy.get_param("/settings/initial_state_name", "initial_state")
-    hand_alvar_marker_name = alvar_marker_prefix + str(rospy.get_param("/settings/hand_alvar_marker_number", 0))
-    object_alvar_marker_number = rospy.get_param("/settings/object_alvar_marker_number", 1)
-    object_alvar_marker_name = alvar_marker_prefix + str(object_alvar_marker_number)
+    message_arrived_trigger_event = threading.Event()
+    rospy.Subscriber("recognizer/output", String, speech_recognition_callback)
+
+    sound_handle = SoundClient()
+    rospy.sleep(1)
+
+    command_execution_timeout = 20
+    found = False
+
+    while not found and not rospy.is_shutdown():
+        recognized_message = ""
+        message_arrived_trigger_event.clear()
+        sound_handle.say("Waiting for command", "voice_kal_diphone")
+        message_arrived_trigger_event.wait(command_execution_timeout)
+
+        if any([item in ["grasp", "screw", "wrench", "washer"] for item in recognized_message.split(" ")]):
+            found = True
 
     hand_commander = SrHandCommander()
     arm_commander = SrArmCommander()
 
     rospy.loginfo("Moving to initial position...")
+    initial_state_name = rospy.get_param("/settings/initial_state_name", "gazebo_initial_state")
     hand_commander.move_to_named_target(initial_state_name, False)
     arm_commander.move_to_named_target(initial_state_name, True)
 
-    rospy.loginfo("Searching transformation between hand and object...")
-    transformations_buffer = tf2_ros.Buffer()
-    listener = tf2_ros.TransformListener(transformations_buffer)
+    rospy.loginfo("Moving close to object...")
+    arm_commander.move_to_named_target("gazebo_move_pre_grasp", True)
 
-    hand_to_object_transformation = get_hand_to_object_transformation()
+    rospy.loginfo("Setting pre-grasp pose...")
+    hand_commander.move_to_named_target("open", True)
 
     rospy.loginfo("Moving closer to object...")
-    group_id = rospy.get_param("/settings/arm_group_name")
-    group = MoveGroupCommander(group_id)
-    robot_link = group.get_end_effector_link()
-    robot_frame = group.get_pose_reference_frame()
+    arm_commander.move_to_named_target("gazebo_move_grasp", True)
+    hand_commander.move_to_named_target("gazebo_hand_grasp", True)
+    # hand_commander.move_to_named_target("fingers_pack_thumb_open", True)
 
-    pre_grasp_pose = group.get_current_pose().pose
-    pre_grasp_delta = 0.2
-    pre_grasp_pose.position.x += hand_to_object_transformation.transform.translation.x
-    pre_grasp_pose.position.y += hand_to_object_transformation.transform.translation.y - pre_grasp_delta
-    pre_grasp_pose.position.z += hand_to_object_transformation.transform.translation.z
-    group.clear_pose_targets()
-    group.set_pose_target(pre_grasp_pose)
-    plan = group.plan()
-    group.execute(plan)
-    rospy.sleep(4)
+    rospy.loginfo("Moving object to air...")
+    arm_commander.move_to_named_target("gazebo_move_up", True)
 
-    rospy.loginfo("Setting pre-grasp pose...")
-    pre_grasp_pose_name = rospy.get_param("/settings/pre_grasp_pose_name", "pre_grasp")
-    hand_commander.move_to_named_target(pre_grasp_pose_name, True)
+    found = False
 
-    rospy.loginfo("Moving close to object...")
-    hand_to_object_transformation = get_hand_to_object_transformation()
-    grasp_pose = group.get_current_pose().pose
-    grasp_delta = 0.1
-    grasp_pose.position.x += hand_to_object_transformation.transform.translation.x
-    grasp_pose.position.y += hand_to_object_transformation.transform.translation.y - grasp_delta
-    grasp_pose.position.z += hand_to_object_transformation.transform.translation.z
-    group.clear_pose_targets()
-    group.set_pose_target(grasp_pose)
-    plan = group.plan()
-    group.execute(plan)
-    rospy.sleep(4)
+    while not found and not rospy.is_shutdown():
+        recognized_message = ""
+        message_arrived_trigger_event.clear()
+        sound_handle.say("Waiting for command", "voice_kal_diphone")
+        message_arrived_trigger_event.wait(command_execution_timeout)
 
-    rospy.loginfo("Grasping object...")
-    grasp_pose_name = rospy.get_param("/settings/grasp_pose_name", "grasp")
-    hand_commander.move_to_named_target(grasp_pose_name, True)
+        if any([item in ["put", "screw", "wrench", "washer"] for item in recognized_message.split(" ")]):
+            found = True
 
-    rospy.loginfo("Picking the object up...")
-    raise_height = 0.2
-    grasp_pose = group.get_current_pose().pose
-    grasp_pose.position.z += raise_height
-    group.clear_pose_targets()
-    group.set_pose_target(grasp_pose)
-    plan = group.plan()
-    group.execute(plan)
-    rospy.sleep(4)
-
-    rospy.loginfo("Putting object down...")
-    raise_height = 0.3
-    grasp_pose = group.get_current_pose().pose
-    grasp_pose.position.z -= raise_height
-    group.clear_pose_targets()
-    group.set_pose_target(grasp_pose)
-    plan = group.plan()
-    group.execute(plan)
-    rospy.sleep(4)
-
-    rospy.loginfo("Setting pre-grasp pose...")
-    hand_commander.move_to_named_target(pre_grasp_pose_name, True)
+    rospy.loginfo("Releasing object...")
+    hand_commander.move_to_named_target("gazebo_hand_release", True)
 
     rospy.loginfo("Moving to initial position...")
     hand_commander.move_to_named_target(initial_state_name, False)

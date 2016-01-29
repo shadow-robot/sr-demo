@@ -12,5 +12,6 @@
     <param name="arm_group_name" type="string"  value="right_arm"/>
     <param name="hand_alvar_marker_number" type="int" value="0" />
     <param name="object_alvar_marker_number" type="int" value="1" />
+    <!-- Add rosparam for adjustment of marker position -->
   </group>
 </launch>
