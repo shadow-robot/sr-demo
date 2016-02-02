@@ -1,0 +1,3 @@
+<launch>
+    <node name="robot_blockly_node" pkg="robot_blockly" type="robot_blockly_backend.py"/>
+</launch>
