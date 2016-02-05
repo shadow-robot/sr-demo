@@ -1,0 +1,12 @@
+<launch>
+  <arg name="hand_serial" default="1130"/>
+  <arg name="sim" default="false"/>
+  <arg name="eth_port" default="eth0"/>
+  <include file="$(find sr_graspatron)/launch/camera.launch" />
+  <include file="$(find sr_robot_launch)/launch/sr_right_ur10arm_hand.launch" >
+    <arg name="hand_serial" value="$(arg hand_serial)"/>
+    <arg name="sim" value="$(arg sim)"/>
+    <arg name="eth_port" value="$(arg eth_port)"/>
+    <!--<arg name="world" default="$(find sr_graspatron)/worlds/new_world.world"/>-->
+  </include>
+</launch>
