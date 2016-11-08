@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find sr_ethercat_hand_config)/launch/sr_rhand.launch" />
+  <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui" args="--perspective-file $(find sr_grip_feedback)/perspectives/grip_feedback.perspective"/>
+</launch>
