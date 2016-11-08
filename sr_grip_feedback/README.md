@@ -3,10 +3,12 @@ This is a simple demo of the lite hand's grip feedback data.
 
 ##Dependencies
 1. Shadow robot ROS development environment, installed using the one-liner
-2. [rqt_multiplot](https://github.com/ethz-asl/rqt_multiplot_plugin) and it's dependencies
+2. A physical lite hand, connected via ethercat
+3. [rqt_multiplot](https://github.com/ethz-asl/rqt_multiplot_plugin) and it's dependencies
 
 ##Installation
-1. Check out into your_catkin_workspace/src
-2. `catkin_make`
-3. `roslaunch sr_grip_feedback sr_grip_feedback.launch`
-4. In the multiplot window within rqt, browse to the included config (`perspectives/mulitplot/hand_feedback_demo.xml`)
+1. `cd your_catkin_workspace/src`
+2. `git clone git@github.com:shadow-robot/sr-demo.git`
+3. `cd .. && catkin_make`
+4. `roslaunch sr_grip_feedback sr_grip_feedback.launch`
+5. In the multiplot window within rqt, browse to the included config (`perspectives/mulitplot/hand_feedback_demo.xml`)
