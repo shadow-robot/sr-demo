@@ -10,3 +10,8 @@ This is a simple demo of the lite hand's grip feedback data.
 2. `catkin_make`
 3. `roslaunch sr_grip_feedback sr_grip_feedback.launch`
 4. In the multiplot window within rqt, browse to the included config (`perspectives/mulitplot/hand_feedback_demo.xml`)
+
+##Running
+1. Check out, make and source the `demohand_lite_v1` branch of `sr_config`
+2. `roslaunch sr_ethercat_hand_config_sr_rhand.launch`
+3. `roslaunch sr_grip_feedback sr_grip_feedback.launch`
