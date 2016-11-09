@@ -6,7 +6,6 @@ project(sr_grip_feedback)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rqt_gui
-  sr_ethercat_hand_config
 )
 
 ## System dependencies are found with CMake's conventions
