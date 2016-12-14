@@ -1,0 +1,6 @@
+<launch>
+  <include file="$(find freenect_launch)/launch/examples/freenect-registered-xyzrgb.launch" />
+  <node name="object_recognition_tabletop" pkg="object_recognition_core" type="detection" args="-c $(find object_recognition_tabletop)/conf/detection.table.ros.ork"/>
+  <node name="object_recognition" pkg="object_recognition_core" type="detection" args="-c $(find sr_ork_tabletop)/conf/detection.object.ros.ork"/>
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find sr_ork_tabletop)/conf/ork_tabletop.rviz" required="true"/>
+</launch>

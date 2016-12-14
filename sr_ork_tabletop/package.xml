@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>sr_ork_tabletop</name>
+  <version>0.0.0</version>
+  <description>A package with the necessary dependencies, launch and config files to run an ORK tabletop object recognition.</description>
+  <maintainer email="software@shadowrobot.com">Shadow Robot's software team</maintainer>
+
+  <license>GPL</license>
+
+  <url type="website">http://www.shadowrobot.com</url>
+  <url type="repository">https://github.com/shadow-robot/sr-demo</url>
+  <url type="bugtracker">https://github.com/shadow-robot/sr-demo/issues</url>
+
+  <author email="ethan@shadowrobot.com">Ethan Fowler</author>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>freenect_camera</build_depend>
+  <build_depend>freenect_launch</build_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>freenect_camera</run_depend>
+  <run_depend>freenect_launch</run_depend>
+
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>
