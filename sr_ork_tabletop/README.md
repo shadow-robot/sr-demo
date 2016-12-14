@@ -6,6 +6,7 @@ This is launch, config and script files necessary to run a tabletop object recog
 2. ORK, [installed using the rosinstall method](http://wg-perception.github.io/object_recognition_core/install.html#rosinstall-file)
 3. Shadow's tabletop detection Docker image (`docker pull shadowrobot/tabletop-detection`)
 4. A Kinect V1 (XBox 360)
+5. The `freenect_camera` and `freenect_launch` ROS packages
 
 ##Installation
 1. `cd your_catkin_workspace/src`
