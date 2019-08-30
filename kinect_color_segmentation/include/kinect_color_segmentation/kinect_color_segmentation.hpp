@@ -1,28 +1,27 @@
-/**
- * @file   kinect_color_segmentation.hpp
- * @author Toni Oliver <toni@shadowrobot.com>, Ugo Cupcic <ugo@shadowrobot.com>
- * @date   Mon Nov  7 14:58:17 2011
- *
+/*
+* @file   kinect_color_segmentation.hpp
+* @author Toni Oliver <toni@shadowrobot.com>, Ugo Cupcic <ugo@shadowrobot.com>
+* @date   Mon Nov  7 14:58:17 2011
+*
 * Copyright 2011 Shadow Robot Company Ltd.
 *
 * This program is free software: you can redistribute it and/or modify it
 * under the terms of the GNU General Public License as published by the Free
-* Software Foundation, either version 2 of the License, or (at your option)
-* any later version.
+* Software Foundation version 2 of the License.
 *
 * This program is distributed in the hope that it will be useful, but WITHOUT
 * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-* FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+* FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 * more details.
 *
 * You should have received a copy of the GNU General Public License along
-* with this program.  If not, see <http://www.gnu.org/licenses/>.
+* with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *
- * @brief  Segment the point cloud filtering points on their RGB values.
- *
- *
- */
+* @brief  Segment the point cloud filtering points on their RGB values.
+*
+*
+*/
 
 #ifndef _KINECT_COLOR_SEGMENTATION_HPP_
 #define _KINECT_COLOR_SEGMENTATION_HPP_
@@ -39,7 +38,7 @@ namespace sr_kinect
 {
   typedef pcl::PointCloud<pcl::PointXYZRGB> PointCloud;
 
-  /**
+  /*
    * The KinectColorSegmentation Nodelet segments a point cloud filtering points on their RGB values
    * Publishes an /output topic with the segmented point cloud
    */
@@ -52,7 +51,7 @@ namespace sr_kinect
 
     virtual void onInit();
 
-    /**
+    /*
      * Callback function for the input cloud topic
      * Filters out the points that doesn't fit in the min max setting for the RGB values
      * @param cloud The input point cloud

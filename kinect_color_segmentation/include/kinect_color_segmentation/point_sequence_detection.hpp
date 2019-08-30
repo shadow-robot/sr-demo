@@ -1,28 +1,27 @@
-/**
- * @file   kinect_color_segmentation.hpp
- * @author Toni Oliver <toni@shadowrobot.com>, Ugo Cupcic <ugo@shadowrobot.com>
- * @date   Mon Nov  7 14:58:17 2011
- *
+/*
+* @file   kinect_color_segmentation.hpp
+* @author Toni Oliver <toni@shadowrobot.com>, Ugo Cupcic <ugo@shadowrobot.com>
+* @date   Mon Nov  7 14:58:17 2011
+*
 * Copyright 2011 Shadow Robot Company Ltd.
 *
 * This program is free software: you can redistribute it and/or modify it
 * under the terms of the GNU General Public License as published by the Free
-* Software Foundation, either version 2 of the License, or (at your option)
-* any later version.
+* Software Foundation version 2 of the License.
 *
 * This program is distributed in the hope that it will be useful, but WITHOUT
 * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-* FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+* FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 * more details.
 *
 * You should have received a copy of the GNU General Public License along
-* with this program.  If not, see <http://www.gnu.org/licenses/>.
+* with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 *
- * @brief  Creates an orderly sequence of points from the input cloud.
- *
- *
- */
+* @brief  Creates an orderly sequence of points from the input cloud.
+*
+*
+*/
 
 #ifndef _POINT_SEQUENCE_DETECTION_HPP_
 #define _POINT_SEQUENCE_DETECTION_HPP_
@@ -48,7 +47,7 @@ namespace sr_kinect
   typedef pcl::KdTreeFLANN<pcl::PointXYZRGB> KdTreeFLANN;
   typedef pcl::ExtractIndices<pcl::PointXYZRGB> ExtractIndices;
 
-  /**
+  /*
    * The PointSequenceDetection Nodelet orders a point cloud to obtain a phisically meaningful trajectory through all the points.
    * The algorithm is based recursively on local proximity from a starting point.
    * It also contains a movement detection mechanism. The output cloud only changes when the input cloud contains enough changes
@@ -67,7 +66,7 @@ namespace sr_kinect
 
     virtual void onInit();
 
-    /**
+    /*
      * Callback function for the input cloud topic
      * Orders the point cloud to obtain a phisically meaningful trajectory through all the points.
      * The algorithm is based recursively on local proximity from a starting point.
@@ -77,20 +76,20 @@ namespace sr_kinect
      */
     void points_callback(const PointCloud::ConstPtr &cloud);
 
-    /**
+    /*
      * Callback function for the normals cloud topic
      * Receives an copies the input normals cloud
      * @param cloud The input normals cloud
      */
     void normals_callback(const PointCloudNormal::ConstPtr &cloud);
 
-    /**
+    /*
      * Callback function of the /segment service
      * The response contains an ordered list of xyz points defining a trajectory
      */
     bool point_sequence_srv_callback(kinect_color_segmentation::SurfaceToDremmel::Request& request, kinect_color_segmentation::SurfaceToDremmel::Response& response);
 
-    /**
+    /*
      * Callback function of the /get_wall_normale service
      * The response contains a quaternion which is the estimated normal of the plane (assuming that the points are on a plane)
      * (the average of the input cloud of normals)
@@ -118,10 +117,10 @@ namespace sr_kinect
     std::string line_axis;
     int K;
     
-    /** \brief Internal mutex for the point cloud */
+    /* \brief Internal mutex for the point cloud */
     boost::mutex mutex_;
     
-    /** \brief Internal mutexfor the normals point cloud */
+    /* \brief Internal mutexfor the normals point cloud */
     boost::mutex mutex_normals_;
   };
 }
