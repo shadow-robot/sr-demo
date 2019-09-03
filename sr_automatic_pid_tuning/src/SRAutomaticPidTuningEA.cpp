@@ -1,9 +1,21 @@
 /** -*- mode: c++; c-indent-level: 4; c++-member-init-indent: 8; comment-column: 35; -*-
 
 The above line is usefulin Emacs-like editors
- */
 
-/*
+* Copyright 2019 Shadow Robot Company Ltd.
+*
+* This program is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation version 2 of the License.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+* FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+* more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program. If not, see <http://www.gnu.org/licenses/>.
+
 Template for creating a new representation in EO
 ================================================
 
@@ -35,26 +47,26 @@ using namespace std;
 // Basically, this should include at least the following
 
 /** definition of representation:
- * class eoSRAutomaticPidTuning MUST derive from EO<FitT> for some fitness
- */
+* class eoSRAutomaticPidTuning MUST derive from EO<FitT> for some fitness
+*/
 #include "sr_automatic_pid_tuning/eoSRAutomaticPidTuning.h"
 
 /** definition of initialisation:
- * class eoSRAutomaticPidTuningInit MUST derive from eoInit<eoSRAutomaticPidTuning>
- */
+* class eoSRAutomaticPidTuningInit MUST derive from eoInit<eoSRAutomaticPidTuning>
+*/
 #include "sr_automatic_pid_tuning/eoSRAutomaticPidTuningInit.h"
 
 /** definition of evaluation:
- * class eoSRAutomaticPidTuningEvalFunc MUST derive from eoEvalFunc<eoSRAutomaticPidTuning>
- * and should test for validity before doing any computation
- * see tutorial/Templates/evalFunc.tmpl
- */
+* class eoSRAutomaticPidTuningEvalFunc MUST derive from eoEvalFunc<eoSRAutomaticPidTuning>
+* and should test for validity before doing any computation
+* see tutorial/Templates/evalFunc.tmpl
+*/
 #include "sr_automatic_pid_tuning/eoSRAutomaticPidTuningEvalFunc.h"
 
 /** definitions of operators: write as many classes as types of operators
- * and include them here. In this simple example,
- * one crossover (2->2) and one mutation (1->1) operators are used
- */
+* and include them here. In this simple example,
+* one crossover (2->2) and one mutation (1->1) operators are used
+*/
 #include "sr_automatic_pid_tuning/eoSRAutomaticPidTuningQuadCrossover.h"
 #include "sr_automatic_pid_tuning/eoSRAutomaticPidTuningMutation.h"
 

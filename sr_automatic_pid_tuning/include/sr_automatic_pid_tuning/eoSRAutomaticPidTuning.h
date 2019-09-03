@@ -1,7 +1,21 @@
 /** -*- mode: c++; c-indent-level: 4; c++-member-init-indent: 8; comment-column: 35; -*-
 
 The above line is usefulin Emacs-like editors
- */
+
+* Copyright 2019 Shadow Robot Company Ltd.
+*
+* This program is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation version 2 of the License.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+* FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+* more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /*
   Template for creating a new representation in EO
@@ -41,21 +55,21 @@ static enum {
 } controller_types;
 
 /**
- *  Always write a comment in this format before class definition
- *  if you want the class to be documented by Doxygen
+*  Always write a comment in this format before class definition
+*  if you want the class to be documented by Doxygen
 
- * Note that you MUST derive your structure from EO<fitT>
- * but you MAY use some other already prepared class in the hierarchy
- * like eoVector for instance, if you handle a vector of something....
+* Note that you MUST derive your structure from EO<fitT>
+* but you MAY use some other already prepared class in the hierarchy
+* like eoVector for instance, if you handle a vector of something....
 
- * If you create a structure from scratch,
- * the only thing you need to provide are
- *        a default constructor
- *        IO routines printOn and readFrom
- *
- * Note that operator<< and operator>> are defined at EO level
- * using these routines
- */
+* If you create a structure from scratch,
+* the only thing you need to provide are
+*        a default constructor
+*        IO routines printOn and readFrom
+*
+* Note that operator<< and operator>> are defined at EO level
+* using these routines
+*/
 template< class FitT>
 class eoSRAutomaticPidTuning: public EO<FitT> {
 public:

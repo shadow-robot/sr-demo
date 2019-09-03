@@ -1,12 +1,26 @@
-/**
- * @file   sr_grasp_planner.hpp
- * @author Ugo Cupcic <ugo@shadowrobot.com>
- * @date   Tue Mar 22 10:39:10 2011
- *
- * @brief  Plans grasps for an unknow object.
- *
- *
- */
+/*
+* Copyright 2011 Shadow Robot Company Ltd.
+*
+* This program is free software: you can redistribute it and/or modify it
+* under the terms of the GNU General Public License as published by the Free
+* Software Foundation version 2 of the License.
+*
+* This program is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+* FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+* more details.
+*
+* You should have received a copy of the GNU General Public License along
+* with this program. If not, see <http://www.gnu.org/licenses/>.
+
+* @file   sr_grasp_planner.hpp
+* @author Ugo Cupcic <ugo@shadowrobot.com>
+* @date   Tue Mar 22 10:39:10 2011
+*
+* @brief  Plans grasps for an unknow object.
+*
+*
+*/
 
 #ifndef _SR_GRASP_PLANNER_H_
 #define _SR_GRASP_PLANNER_H_
@@ -47,9 +61,9 @@ namespace shadowrobot
     static const double default_approach_distance;
     static const unsigned short default_number_of_computed_grasps;
 
-    /** A transform listener */
+    /* A transform listener */
     boost::shared_ptr<tf::TransformListener> tf_listener;
-    /** A transform broadcaster to broadcast the object pose*/
+    /* A transform broadcaster to broadcast the object pose*/
     boost::shared_ptr<tf::TransformBroadcaster> tf_broadcaster;
   };
 }
