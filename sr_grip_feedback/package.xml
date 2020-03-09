@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>sr_grip_feedback</name>
+  <version>0.0.0</version>
+  <description>The sr_grip_feedback package</description>
+  <maintainer email="software@shadowrobot.com">Shadow Robot's software team</maintainer>
+
+  <license>GPL</license>
+
+  <url type="website">http://www.shadowrobot.com</url>
+  <url type="repository">https://github.com/shadow-robot/sr-demo</url>
+  <url type="bugtracker">https://github.com/shadow-robot/sr-demo/issues</url>
+
+  <author email="ethan@shadowrobot.com">Ethan Fowler</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rqt_gui</build_depend>
+
+  <run_depend>rqt_gui</run_depend>
+</package>
